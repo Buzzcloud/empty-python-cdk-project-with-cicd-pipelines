@@ -1,0 +1,8 @@
+[run]
+branch = True
+omit =
+    .env/*
+    tests/*
+
+[report]
+fail_under = 95

@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - . .env/bin/activate
+      - pip install -q --no-index --find-links=wheels -r requirements.txt
+      - mkdir -p .pylint.d
+      - mkdir -p .pytest_cache
+  build:
+    commands:
+      - pylint **/*.py 2>&1 | tee pylint.out
+      - coverage run -m pytest -rA 2>&1 | tee pytest.out
+      - coverage report 2>&1 | tee coverage.out
+      - ls -la
+
+artifacts:
+  files:
+    - pylint.out
+    - pytest.out
+    - coverage.out
+
+cache:
+  paths:
+    - .pytest_cache/**/*
+    - .pylint.d/**/*
+ 
